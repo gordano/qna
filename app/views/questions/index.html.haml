@@ -1,6 +1,7 @@
--@questions.each do |qs|
+=link_to "Add question", new_question_path
+-@questions.each do |q|
   %h2
-    =qs.title
+    =link_to q.title, question_path(q)
   %p
-    =qs.body
+    =q.body
   %hr

@@ -2,14 +2,15 @@ class QuestionsController < ApplicationController
 	before_action :find_question, only: [:show, :edit, :update, :destroy]
 	def index
       @questions = Question.all
-	end
+    end
 
-	def show      
+	def show
+	  @answers = @question.answers      
 	end
 
 	def new 
-      @question = Question.new
-	end
+      @question = Question.new      
+    end	
 
 	def edit     
 	end

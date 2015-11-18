@@ -1,0 +1,17 @@
+%h1
+  Your question
+%h3
+  =@question.title
+%p
+  =@question.body
+=link_to 'To index', questions_path
+=link_to 'Edit question', edit_question_path(@question)
+%br
+%hr
+%h3
+  Answers
+=link_to "Add answer", new_question_answer_path(question_id:@question) 
+-@answers.each do |a|
+  %p
+    =a.body
+    =link_to 'Delete', [@question, a], method: :delete, data: {confirm: "Are you sure?"}   
