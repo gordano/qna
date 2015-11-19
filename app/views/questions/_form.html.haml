@@ -1,5 +1,5 @@
 = form_for(@question) do |f|
-  - if @question.errors.any?
+  -if @question.errors.any?
     #errorExplanation
       %h2
         = pluralize(@question.errors.count, "error")
@@ -15,6 +15,6 @@
   .field
     = f.label :body
     %br/
-    = f.text_field :body 
+    = f.text_field :body
   .actions
     = f.submit

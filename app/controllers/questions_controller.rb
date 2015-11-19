@@ -1,47 +1,47 @@
 class QuestionsController < ApplicationController
-	before_action :find_question, only: [:show, :edit, :update, :destroy]
-	def index
+  before_action :find_question, only: [:show, :edit, :update, :destroy]
+  def index
       @questions = Question.all
-    end
+  end
 
-	def show
-	  @answers = @question.answers      
-	end
+  def show
+    @answers = @question.answers
+  end
 
-	def new 
-      @question = Question.new      
-    end	
+  def new
+      @question = Question.new
+  end
 
-	def edit     
-	end
+  def edit
+  end
 
-	def create
-	  @question = Question.new(question_params)	  	
+  def create
+    @question = Question.new(question_params)
       if @question.save
-      	redirect_to question_path(@question)
+        redirect_to question_path(@question)
       else
-      	render :new
+        render :new
       end
-	end
+  end
 
-	def update
-      if @question.update(question_params)      	
-        redirect_to @question
-      else
-      	render :edit
+  def update
+    if @question.update(question_params)
+      redirect_to @question
+    else
+      render :edit
+    end
+  end
+
+  def destroy
+    @question.destroy
+    redirect_to questions_path
+  end
+
+  private
+      def find_question
+        @question = Question.find(params[:id])
       end
-	end
-
-	def destroy
-      @question.destroy
-      redirect_to questions_path
-	end
-
-	private
-			def find_question
-			  @question = Question.find(params[:id])
-			end
-			def question_params
-              params.require(:question).permit(:title, :body)
-			end 
+      def question_params
+        params.require(:question).permit(:title, :body)
+      end
 end
