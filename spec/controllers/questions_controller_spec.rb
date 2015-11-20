@@ -3,8 +3,8 @@ require 'rails_helper'
 RSpec.describe QuestionsController, :type => :controller do
 	let(:questions) {create_list(:question, 2)}
 	let(:question) {create(:question)}
-	describe 'GET #index' do	  
-	  before { get :index }	  	
+	describe 'GET #index' do
+	  before { get :index }
       it 'populates an array of all questions' do
         expect(assigns(:questions)).to match_array(questions)
       end
@@ -12,9 +12,9 @@ RSpec.describe QuestionsController, :type => :controller do
       	expect(response).to render_template :index
       end
 	end
-    
-    describe 'GET #show' do      	
-      before { get :show, id: question } 
+
+    describe 'GET #show' do
+      before { get :show, id: question }
       it 'assigns the requested question to @question' do
         expect(assigns(:question)).to eq question
       end
@@ -33,8 +33,8 @@ RSpec.describe QuestionsController, :type => :controller do
       end
     end
 
-    describe 'GET #edit' do      	
-      before { get :edit, id: question } 
+    describe 'GET #edit' do
+      before { get :edit, id: question }
       it 'assigns the requested question to @question' do
         expect(assigns(:question)).to eq question
       end
@@ -58,12 +58,12 @@ RSpec.describe QuestionsController, :type => :controller do
           expect { post :create, question: attributes_for(:invalid_question) }.to_not change(Question, :count)
         end
 
-        it 're-renders new view' do 
+        it 're-renders new view' do
           post :create, question: attributes_for(:invalid_question)
           expect(response).to render_template :new
-        end	
+        end
       end
-      
+
     end
     describe 'PATCH #update' do
       context 'valid attributes' do
@@ -84,7 +84,7 @@ RSpec.describe QuestionsController, :type => :controller do
       end
       context 'invalid attributes' do
       	before {patch :update, id: question, question: {title: 'new title', body: nil}}
-      	it 'not change question attributes' do         
+      	it 'not change question attributes' do
           question.reload
           #expect(question.title).to eq 'new title'
           #expect(question.body).to eq 'new body'
@@ -97,7 +97,7 @@ RSpec.describe QuestionsController, :type => :controller do
     end
     describe 'DELETE #destroy' do
       before { question }
-      it 'deleted question' do        	
+      it 'deleted question' do
         expect { delete :destroy, id: question}.to change(Question, :count).by(-1)
       end
       it 'redirect to index view' do

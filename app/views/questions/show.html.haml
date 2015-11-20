@@ -1,5 +1,10 @@
 %h1
   Your question
+
+%p.notice
+  =notice
+%p.alert
+  =alert
 %h3
   =@question.title
 %p
@@ -10,8 +15,8 @@
 %hr
 %h3
   Answers
-=link_to "Add answer", new_question_answer_path(question_id:@question) 
+=link_to "Add answer", new_question_answer_path(question_id:@question)
 -@answers.each do |a|
   %p
     =a.body
-    =link_to 'Delete', [@question, a], method: :delete, data: {confirm: "Are you sure?"}   
+    =link_to 'Delete', [@question, a], method: :delete, data: {confirm: "Are you sure?"}

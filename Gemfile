@@ -25,7 +25,7 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 gem 'haml', '~> 4.0', '>= 4.0.7'
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
-
+gem 'devise', '~> 3.5', '>= 3.5.2'
 # Use Unicorn as the app server
 # gem 'unicorn'
 
@@ -48,6 +48,8 @@ end
 
 group :test do
   gem 'shoulda-matchers'
+  gem 'capybara', '~> 2.5'
+  gem 'launchy', '~> 2.4', '>= 2.4.3'
 end
 
 
