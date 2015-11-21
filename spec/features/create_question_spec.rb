@@ -5,15 +5,9 @@ feature 'Create question', %q{
   As an authenticated user
   I want to be able to ask questions
 }do
+  given(:user) {create(:user)}
   scenario 'Authenticated user create question' do
-    User.create!(email: 'user@test.com', password: '12345678' )
-
-    visit new_user_session_path
-    fill_in 'Email', with: 'user@test.com'
-    fill_in 'Password', with: '12345678'
-    click_on 'Log in'
-
-    #visit question_path
+    sign_in(user)
     click_on 'Add question'
 
     fill_in 'Title', with: 'Test question'
@@ -21,17 +15,11 @@ feature 'Create question', %q{
     click_on 'Create Question'
 
     expect(page).to have_content 'You question successfully created.'
-
-
   end
-  scenario 'NON-authenticated user create question' do
-    User.create!(email: 'user@test.com', password: '12345678' )
+  scenario 'NON-authenticated user try to create question' do
+    visit questions_path
+    click_on 'Add question'
 
-    visit new_user_session_path
-    fill_in 'Email', with: 'user@test.com'
-    fill_in 'Password', with: '1234567899'
-    click_on 'Log in'
-
-    expect(page).to have_content 'Invalid email or password. Log in Email Password Remember me Sign up Forgot your password?'
+    expect(page).to have_content 'You need to sign in or sign up before continuing.'
   end
 end
