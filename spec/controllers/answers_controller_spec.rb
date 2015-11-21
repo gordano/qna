@@ -1,6 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe AnswersController, :type => :controller do
+  sign_in_user
   let(:answer) {create(:answer)}
   let(:question) {create(:question)}
   describe 'GET #new' do
