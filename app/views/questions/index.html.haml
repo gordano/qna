@@ -1,7 +1,7 @@
-=link_to "Add question", new_question_path
 -@questions.each do |q|
-  %h2
-    =link_to q.title, question_path(q)
-  %p
-    =q.body
-  %hr
+  .panel.panel-default
+    .panel-heading
+      %h3
+        =link_to q.title, question_path(q)
+    .panel-body
+      =q.body

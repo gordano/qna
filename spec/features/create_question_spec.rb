@@ -8,7 +8,7 @@ feature 'Create question', %q{
   given(:user) {create(:user)}
   scenario 'Authenticated user create question' do
     sign_in(user)
-    click_on 'Add question'
+    click_on 'New Question'
 
     fill_in 'Title', with: 'Test question'
     fill_in 'Body', with: 'Test question body'
@@ -18,8 +18,6 @@ feature 'Create question', %q{
   end
   scenario 'NON-authenticated user try to create question' do
     visit questions_path
-    click_on 'Add question'
-
-    expect(page).to have_content 'You need to sign in or sign up before continuing.'
+    expect(page).to_not have_content 'Create Question'
   end
 end
