@@ -5,15 +5,18 @@
   .panel-body
     = @question.body
   .panel-footer
-    =link_to 'To index', questions_path
-    =link_to 'Edit question', edit_question_path(@question)
+    =link_to 'To index', questions_path, class:['btn','btn-default']
+    -if current_user == @question.user
+      .btn-group
+        =link_to 'Edit question', edit_question_path(@question), class:['btn','btn-default']
+        =link_to 'Delete', @question, method: :delete, data: {confirm: "Are you sure?"}, class:['btn','btn-default']
+
 %h4
-  Answers
+  Answers:
 =link_to "Add answer", new_question_answer_path(question_id:@question)
 -@answers.each do |a|
   %p
     =a.body
-    =link_to 'Delete', [@question, a], method: :delete, data: {confirm: "Are you sure?"}
-
-
-
+    =a.user.email
+    -if a.user == current_user
+      =link_to 'Remove My Answer', [@question, a], method: :delete, data: {confirm: "Are you sure?"}

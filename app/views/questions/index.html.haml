@@ -5,3 +5,6 @@
         =link_to q.title, question_path(q)
     .panel-body
       =q.body
+    .panel-footer
+      .btn.btn-defult
+        = 'Автор вопроса: ' + q.user.email
