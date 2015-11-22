@@ -1,8 +1,9 @@
 class QuestionsController < ApplicationController
   before_action :authenticate_user!, except: [:show, :index]
   before_action :find_question, only: [:show, :edit, :update, :destroy]
+  before_action :check_author, only: [:edit, :destroy]
   def index
-      @questions = Question.all
+    @questions = Question.all
   end
 
   def show
@@ -10,17 +11,18 @@ class QuestionsController < ApplicationController
   end
 
   def new
-      @question = Question.new
+    @question = current_user.questions.new
   end
 
   def edit
+
   end
 
   def create
-    @question = Question.new(question_params)
+    @question = current_user.questions.new(question_params)
       if @question.save
-        flash[:success] = "You question successfully created."
-        redirect_to question_path(@question)
+        redirect_to question_path(@question),
+        notice: "You question successfully created."
       else
         render :new
       end
@@ -28,8 +30,8 @@ class QuestionsController < ApplicationController
 
   def update
     if @question.update(question_params)
-      flash[:success] = "You question successfully updated."
-      redirect_to @question
+      redirect_to @question,
+      notice: "You question successfully updated."
     else
       render :edit
     end
@@ -37,7 +39,8 @@ class QuestionsController < ApplicationController
 
   def destroy
     @question.destroy
-    redirect_to questions_path
+    redirect_to questions_path,
+                notice: 'Your Question was deleted'
   end
 
   private
@@ -45,6 +48,10 @@ class QuestionsController < ApplicationController
         @question = Question.find(params[:id])
       end
       def question_params
-        params.require(:question).permit(:title, :body)
+        params.require(:question).permit(:title, :body,)
+      end
+      def check_author
+        redirect_to :back,
+        notice: 'You not author' unless @question.user == current_user
       end
 end
