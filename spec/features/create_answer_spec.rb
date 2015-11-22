@@ -13,7 +13,7 @@ feature 'Create answer', %q{
     click_on 'Add answer'
     fill_in 'Body' , with: 'test body'
     click_on 'Create Answer'
-    expect(page).to have_content 'You answer successfully created.'
+    expect(page).to have_content 'Your answer successfully created.'
   end
   scenario 'NON-authenticated user try to create answer' do
     visit question_path(question)
