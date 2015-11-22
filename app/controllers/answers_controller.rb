@@ -12,7 +12,7 @@ class AnswersController < ApplicationController
     @answer.user = current_user
     if @answer.save
       redirect_to question_path(@question),
-                  notice: "Your answer successfully created."
+        notice: "Your answer successfully created."
     else
       render :new
     end
@@ -37,6 +37,6 @@ class AnswersController < ApplicationController
       end
       def check_author
         redirect_to :back,
-        notice: 'You not author' unless @answer.user == current_user
+          notice: 'You not author' unless @answer.user == current_user
       end
 end

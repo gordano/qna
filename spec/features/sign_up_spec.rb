@@ -13,7 +13,7 @@ feature 'User sign up', %q{
     fill_in 'Password', with: '123456789'
     fill_in 'Password confirmation', with: '123456789'
     click_on 'Sign up'
-    #save_and_open_page
+
     expect(page).to have_content 'Welcome! You have signed up successfully.'
     expect(current_path).to eq root_path
   end
