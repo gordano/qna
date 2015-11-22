@@ -35,14 +35,17 @@ RSpec.describe AnswersController, :type => :controller do
     end
   end
 
-    describe 'PATCH #destroy' do
-      before { question; answer}
-      it 'delete answer' do
-        expect { delete :destroy, id: answer, question_id: question }.to change(Answer, :count).by(-1)
-      end
-      it 'redirect to question path' do
-        expect { delete :destroy, id: answer, question_id: question }.to change(Answer, :count).by(-1)
-        expect(response).to redirect_to question_path(assigns(:question))
-      end
+  describe 'PATCH #destroy' do
+    sign_in_user
+    let(:question) {create(:question, user: @user )}
+    let(:answer) {create(:answer, user: @user, question: question)}
+    before { question; answer}
+    it 'delete answer' do
+      expect { delete :destroy, id: answer, question_id: question, user_id: @user }.to change(Answer, :count).by(-1)
     end
+    it 'redirect to question path' do
+      expect { delete :destroy, id: answer, question_id: question }.to change(Answer, :count).by(-1)
+      expect(response).to redirect_to question_path(assigns(:question))
+    end
+  end
 end
