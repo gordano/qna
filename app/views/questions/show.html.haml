@@ -13,10 +13,11 @@
 
 %h4
   Answers:
-=link_to "Add answer", new_question_answer_path(question_id:@question)
--@answers.each do |a|
-  %p
-    =a.body
-    =a.user.email
-    -if a.user == current_user
-      =link_to 'Remove My Answer', [@question, a], method: :delete, data: {confirm: "Are you sure?"}
+= bootstrap_form_for [@question, @question.answers.build], remote: true  do |f|
+  = f.text_area :body
+  = f.submit 'Add answer'
+
+
+//=link_to "Add answer", new_question_answer_path(question_id:@question)
+.answers
+  = render 'answers'

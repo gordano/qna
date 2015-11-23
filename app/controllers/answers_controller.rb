@@ -1,5 +1,5 @@
 class AnswersController < ApplicationController
-  before_action :authenticate_user!
+  before_action :authenticate_user!, except: :create
   before_action :find_question, only: [:new,:create,:destroy]
   before_action :find_answer, only: :destroy
   before_action :check_author, only: :destroy
@@ -8,13 +8,14 @@ class AnswersController < ApplicationController
   end
 
   def create
-    @answer = @question.answers.new(answer_params)
-    @answer.user = current_user
-    if @answer.save
-      redirect_to question_path(@question),
-        notice: "Your answer successfully created."
+    if user_signed_in?
+      @answer = @question.answers.new(answer_params)
+      @answer.user = current_user
+      @answer.save
     else
-      render :new
+      flash[:notice] = 'Please login to Add Comments'
+      flash.keep(:notice)
+      render js: "window.location.pathname = '#{new_user_session_path}'"
     end
   end
 

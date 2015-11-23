@@ -34,6 +34,6 @@ module Qna
 
 
     config.active_record.raise_in_transactional_callbacks = true
-    config.use_transactional_fixtures = true
+    #config.use_transactional_fixtures = true
   end
 end

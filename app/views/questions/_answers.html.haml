@@ -1,0 +1,8 @@
+
+-@question.answers.each do |a|
+  %p
+    =a.body
+    //-if a.user == current_user && !a.body.empty?
+    -if a.user == current_user and user_signed_in?
+      -if !a.body.empty?
+        =link_to 'Remove My Answer', [@question, a], method: :delete, data: {confirm: "Are you sure?"}
