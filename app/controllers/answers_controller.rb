@@ -27,8 +27,8 @@ class AnswersController < ApplicationController
 
   def destroy
     if @answer.destroy
-      redirect_to question_path(@question),
-                  notice: 'Your Answer was deleted'
+      #redirect_to question_path(@question),
+      #            notice: 'Your Answer was deleted'
     end
   end
 
