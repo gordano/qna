@@ -16,6 +16,7 @@ class AnswersController < ApplicationController
       flash[:notice] = 'Please login to Add Comments'
       flash.keep(:notice)
       render js: "window.location.pathname = '#{new_user_session_path}'"
+
     end
   end
 

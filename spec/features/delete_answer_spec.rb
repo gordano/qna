@@ -1,4 +1,4 @@
-require 'rails_helper'
+require_relative 'features_helper'
 
 feature 'Delete answer', %q{
   In order to delete wrong answer
@@ -24,7 +24,7 @@ feature 'Delete answer', %q{
     expect(page).to_not have_content 'Remove My Answer'
     expect(page).to_not have_content 'Delete'
   end
-  scenario 'Other user try to revome answer' do
+  scenario 'Other user try to remove answer' do
     sign_in(user_other)
     visit question_path(question)
     expect(page).to_not have_content 'Remove My Answer'
