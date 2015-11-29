@@ -1,8 +1,8 @@
 class AnswersController < ApplicationController
   before_action :authenticate_user!, except: :create
-  before_action :find_question, only: [:new,:create,:destroy]
-  before_action :find_answer, only: :destroy
-  before_action :check_author, only: :destroy
+  before_action :find_question, only: [:new,:create,:destroy, :update]
+  before_action :find_answer, only: [:destroy, :update]
+  before_action :check_author, only: [:destroy, :update]
   def new
     @answer = @question.answers.new
   end
@@ -18,6 +18,11 @@ class AnswersController < ApplicationController
       render js: "window.location.pathname = '#{new_user_session_path}'"
 
     end
+  end
+  # WARNING: NO TEST UNIT
+  def update
+    @answer.update(answer_params)
+    @answer
   end
 
   def destroy

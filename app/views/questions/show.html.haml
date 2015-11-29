@@ -14,7 +14,7 @@
 %h4
   Answers:
 = bootstrap_form_for [@question, @question.answers.build], remote: true  do |f|
-  = f.text_area :body
+  = f.text_area :body, label: 'Your answer text:'
   = f.submit 'Add answer'
 
 
