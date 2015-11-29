@@ -3,7 +3,7 @@ Rails.application.routes.draw do
   root 'questions#index'
   resources :questions do
     resources :answers do
-      patch :make_best, on: :member
+      patch :makebest, on: :member
     end
   end
 

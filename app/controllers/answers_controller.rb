@@ -1,7 +1,7 @@
 class AnswersController < ApplicationController
   before_action :authenticate_user!, except: :create
-  before_action :find_question, only: [:new,:create,:destroy, :update, :isbest]
-  before_action :find_answer, only: [:destroy, :update, :isbest]
+  before_action :find_question, only: [:new,:create,:destroy, :update, :makebest]
+  before_action :find_answer, only: [:destroy, :update, :makebest]
   before_action :check_author, only: [:destroy, :update]
   def new
     @answer = @question.answers.new
@@ -31,8 +31,8 @@ class AnswersController < ApplicationController
     end
   end
 
-  def make_best
-    @answer.make_best if @question.user_id == current_user.id
+  def makebest
+    @answer.make_best if @question.user == current_user
   end
 
   private

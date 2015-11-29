@@ -8,7 +8,10 @@
         .btn-group
           =link_to 'Remove My Answer', [@question, a], method: :delete, data: {confirm: "Are you sure?"},remote: true
           =link_to 'Edit My Answer', '', data: {answer_id: a.id}, class:["edit-answer-link"]
-
+          -if current_user.id == a.question.user_id && !a.best
+            =link_to 'Check as best Answer', makebest_question_answer_path(@question,a), method: :patch ,remote: true
+          -if current_user.id == a.question.user_id && a.best
+            Best Answer
       .answer-edit-form
         =bootstrap_form_for [@question, a], remote: true, html: {id: "answer-edit-#{a.id}"} do |answer|
           .form-errors
