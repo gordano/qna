@@ -8,8 +8,8 @@
         .btn-group
           =link_to 'Remove My Answer', [@question, a], method: :delete, data: {confirm: "Are you sure?"},remote: true
           =link_to 'Edit My Answer', '', data: {answer_id: a.id}, class:["edit-answer-link"]
-      .answer-edit-form
 
+      .answer-edit-form
         =bootstrap_form_for [@question, a], remote: true, html: {id: "answer-edit-#{a.id}"} do |answer|
           .form-errors
           //-# content_tag(:div, class: ["form-errors-#{a.id}"])

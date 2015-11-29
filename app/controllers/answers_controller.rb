@@ -1,7 +1,7 @@
 class AnswersController < ApplicationController
   before_action :authenticate_user!, except: :create
-  before_action :find_question, only: [:new,:create,:destroy, :update]
-  before_action :find_answer, only: [:destroy, :update]
+  before_action :find_question, only: [:new,:create,:destroy, :update, :isbest]
+  before_action :find_answer, only: [:destroy, :update, :isbest]
   before_action :check_author, only: [:destroy, :update]
   def new
     @answer = @question.answers.new
@@ -19,10 +19,9 @@ class AnswersController < ApplicationController
 
     end
   end
-  # WARNING: NO TEST UNIT
+
   def update
     @answer.update(answer_params)
-    @answer
   end
 
   def destroy
@@ -30,6 +29,10 @@ class AnswersController < ApplicationController
       #redirect_to question_path(@question),
       #            notice: 'Your Answer was deleted'
     end
+  end
+
+  def make_best
+    @answer.make_best if @question.user_id == current_user.id
   end
 
   private

@@ -13,11 +13,11 @@ feature 'Delete answer', %q{
   given!(:answer){ create(:answer, question: question, user: user)}
 
 
-  scenario 'Authenticated user try to revome answer' do
+  scenario 'Authenticated user try to revome answer', js: true do
     sign_in(user)
     visit question_path(question)
     click_on 'Remove My Answer'
-    expect(page).to have_content 'Your Answer was deleted'
+    expect(page).to_not have_content answer.body
   end
   scenario 'NON-authenticated user try to revome question and answer' do
     visit question_path(question)

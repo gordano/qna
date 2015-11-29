@@ -63,11 +63,11 @@ RSpec.describe AnswersController, :type => :controller do
     sign_in_user
     before { question; answer}
     it 'delete answer' do
-      expect { delete :destroy, id: answer, question_id: question, user_id: @user }.to change(Answer, :count).by(-1)
+      expect { delete :destroy, id: answer, question_id: question, user_id: @user , format: :js}.to change(Answer, :count).by(-1)
     end
     it 'redirect to question path' do
-      expect { delete :destroy, id: answer, question_id: question }.to change(Answer, :count).by(-1)
-      expect(response).to redirect_to question_path(assigns(:question))
+      expect { delete :destroy, id: answer, question_id: question ,format: :js}.to change(Answer, :count).by(-1)
+      expect(response).to render_template :destroy
     end
   end
 end
