@@ -10,7 +10,7 @@ feature 'Create answer', %q{
   scenario 'Authenticated user create answer', js: true do
     sign_in(user)
     visit question_path(question)
-    fill_in 'Body' , with: 'test body'
+    fill_in 'Your answer text:' , with: 'test body'
     click_on 'Add answer'
     expect(current_path).to eq question_path(question)
     within '.answers' do

@@ -26,6 +26,39 @@ RSpec.describe AnswersController, :type => :controller do
     end
   end
 
+  describe 'PATCH #update' do
+    context 'valid attributes' do
+      it 'assigned the requested answer to @answer' do
+        patch :update, id:answer,
+                       question_id: question.id,
+                       user_id: @user.id,
+                       answer: attributes_for(:answer),
+                       format: :js
+
+        expect(assigns(:answer)).to eq answer
+      end
+      it 'change answer attributes' do
+        patch :update, id:answer,
+                       question_id: question.id,
+                       user_id: @user.id,
+                       answer: { body: 'new body'},
+                       format: :js
+        answer.reload
+        expect(answer.body).to eq 'new body'
+
+      end
+
+      it 'stand in question page' do
+        patch :update, id:answer,
+                       question_id: question.id,
+                       user_id: @user.id,
+                       answer:  attributes_for(:answer),
+                       format: :js
+        expect(response).to render_template :update
+      end
+    end
+  end
+
   describe 'PATCH #destroy' do
     sign_in_user
     before { question; answer}
