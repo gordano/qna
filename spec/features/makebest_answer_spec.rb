@@ -38,12 +38,8 @@ feature 'make_best answer' do
     sign_in(current_user)
     visit question_path(question)
     expect(page).to have_content other_answer.body
-
-
     expect(answer.body).to have_content first(".answer-body").text
     expect(other_answer.body).to_not have_content first(".answer-body").text
-
-    #save_and_open_page
     page.find(".best-answer-#{other_answer.id}").click
     sleep(2)
     expect(other_answer.body).to have_content first(".answer-body").text
