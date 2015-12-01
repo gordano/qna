@@ -1,7 +1,8 @@
 
 .answer-box{class: "answer-box-id-#{answer.id}"}
   .answer-body
-    =answer.body
+    %p
+      =answer.body
     .answer-best-box{data: {link: makebest_question_answer_path(@question,answer), id: answer.id} }
 
       -if current_user == answer.question.user and answer.best == false and answer.id

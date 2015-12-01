@@ -37,13 +37,13 @@ feature 'make_best answer' do
   scenario "best answer seen first", js: true do
     sign_in(current_user)
     visit question_path(question)
-    expect(page).to have_content other_answer.body
-    expect(answer.body).to have_content first(".answer-body").text
-    expect(other_answer.body).to_not have_content first(".answer-body").text
-    page.find(".best-answer-#{other_answer.id}").click
-    sleep(2)
-    expect(other_answer.body).to have_content first(".answer-body").text
-    expect(answer.body).to_not have_content first(".answer-body").text
+    within(".answers > :first-child") do
+      expect(page).to have_content answer.body
+    end
+    find(".best-answer-#{other_answer.id}").click
+    within(".answers > :first-child") do
+      expect(page).to have_content other_answer.body
+    end
   end
 
 end
