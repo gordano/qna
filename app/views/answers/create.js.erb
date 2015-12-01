@@ -1,11 +1,9 @@
 <% if @answer.errors.present? %>
   <% @answer.errors.full_messages.each do |message| %>
-
-    $('.form-errors').html('<%= j message%>');
-
+    $('.add-answer-form-error').html('<%= j message%>');
   <% end %>
 <% else %>
-  $('.answers').html('<%= j render 'questions/answers' %>');
+  $('.answers').append('<%= j render 'questions/answers', answer: @answer %>');
   $('#answer_body').val('');
   $('.edit-answer-link').click(function(e){
     if (e.originalEvent.defaultPrevented) return;

@@ -1,26 +1,27 @@
 
--@question.answers.each do |a|
-  .answer-box{class: "answer-box-id-#{a.id}"}
-    = a.id
-    .answer-body
-      =a.body
-    -if current_user == a.question.user and a.best == false and a.id
-      =link_to 'Check as best Answer', makebest_question_answer_path(@question,a), method: :patch ,class:["best-answer-#{a.id}"],remote: true
-    -if a.best == true
-      Best Answer
-    -if user_signed_in?
-      -if a.user == current_user
-        -unless a.body.empty?
-          .btn-group
-            =link_to 'Remove My Answer', [@question, a], method: :delete, data: {confirm: "Are you sure?"},remote: true
-            =link_to 'Edit My Answer', '', data: {answer_id: a.id}, class:["edit-answer-link"]
+.answer-box{class: "answer-box-id-#{answer.id}"}
+  .answer-body
+    =answer.body
+    .answer-best-box{data: {link: makebest_question_answer_path(@question,answer), id: answer.id} }
 
-        .answer-edit-form
-          =bootstrap_form_for [@question, a], remote: true, html: {id: "answer-edit-#{a.id}"} do |answer|
-            .form-errors
-            //-# content_tag(:div, class: ["form-errors-#{a.id}"])
-            =answer.text_area :body, label: "You answer:"
-            =answer.submit 'Save'
+      -if current_user == answer.question.user and answer.best == false and answer.id
+        =link_to 'Check as best Answer', makebest_question_answer_path(@question,answer), method: :patch ,class:["best-answer-#{answer.id}"],remote: true
+      -if answer.best == true
+        %span{class:["this-best-answer-#{answer.id}"]}
+          Best Answer
+  -if user_signed_in?
+    -if answer.user == current_user
+      -unless answer.body.empty?
+        .btn-group
+          =link_to 'Remove My Answer', [@question, answer], method: :delete, data: {confirm: "Are you sure?"},remote: true
+          =link_to 'Edit My Answer', '', data: {answer_id: answer.id}, class:["edit-answer-link"]
+
+      .answer-edit-form
+        =bootstrap_form_for [@question, answer], remote: true, html: {id: "answer-edit-#{answer.id}"} do |answer|
+          .form-errors
+            //-# content_tag(:div, class: ["form-errors-#{answer.id}"])
+          =answer.text_area :body, label: "You answer:"
+          =answer.submit 'Save'
 
 
 

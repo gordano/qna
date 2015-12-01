@@ -5,13 +5,9 @@
 
   <% end %>
 <% else %>
-  $('.answers').html('<%= j render 'questions/answers' %>');
-  $('#answer_body').val('');
-  $('.edit-answer-link').click(function(e){
-    if (e.originalEvent.defaultPrevented) return;
-    e.preventDefault();
-    $(this).hide();
-    answer_id = $(this).data('answerId');
-    $("#answer-edit-"+answer_id).show();
-    });
+  $('.answer-box-id-<%= @answer.id %> .answer-body').html('<%= j @answer.body %>');
+  $('.answer-box-id-<%= @answer.id %> .edit-answer-link').show();
+  //$('#answer_body').val('');
+  $('form#answer-edit-<%= @answer.id %>').hide();
+
 <% end %>
