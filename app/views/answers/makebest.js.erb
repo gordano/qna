@@ -7,18 +7,5 @@
   link = $('.answer-best-box').first().data('link');
   id = $('.answer-best-box').first().data('id');
   $('.answer-best-box').first().html('<a class="best-answer-'+id+'" data-remote="true" rel="nofollow" data-method="patch" href="'+link+'">Check as best Answer</a>');
-  $('.answers').prepend('<%= j render 'questions/answers', answer: @answer %>');
-  //$('a.best-answer-<%= @answer.id %>').html('New best answer');
-  //$('a.best-answer-<%= @answer.id %>').bind('click', false);
-  //$('a.best-answer-<%= @answer.id %>').addClass('best-clear');
+  $('.answers').prepend('<%= j render 'questions/answer', answer: @answer %>');
 <% end %>
-
-
-
-
-//$('a.best-answer-93').html('New best answer');
-//$('a.best-answer-93').bind('click', false);
-
-//makebest_question_answer_path(@question,answer)
-//<span class="this-best-answer-95">Best Answer</span>
-//<a class="best-answer-95" data-remote="true" rel="nofollow" data-method="patch" href="/questions/18/answers/94/makebest">Check as best Answer</a>

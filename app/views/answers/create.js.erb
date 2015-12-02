@@ -3,7 +3,7 @@
     $('.add-answer-form-error').html('<%= j message%>');
   <% end %>
 <% else %>
-  $('.answers').append('<%= j render 'questions/answers', answer: @answer %>');
+  $('.answers').append('<%= j render 'questions/answer', answer: @answer %>');
   $('#answer_body').val('');
   $('.edit-answer-link').click(function(e){
     if (e.originalEvent.defaultPrevented) return;

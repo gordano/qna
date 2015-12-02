@@ -45,5 +45,4 @@ feature 'make_best answer' do
       expect(page).to have_content other_answer.body
     end
   end
-
 end
