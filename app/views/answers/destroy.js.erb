@@ -1,8 +1,1 @@
-<% if @answer.errors.present? %>
-  <% @answer.errors.full_messages.each do |message| %>
-    $('.form-errors').html('<%= j message%>');
-  <% end %>
-<% else %>
-  $('.answer-box-id-<%= @answer.id %>').remove();
-<% end %>
-
+$('.answer-box-id-<%= @answer.id %>').remove();
