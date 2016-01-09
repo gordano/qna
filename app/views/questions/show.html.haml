@@ -5,6 +5,10 @@
   .panel-body
     = @question.body
   .panel-footer
+    .question-attach
+      - @question.attachments.each do |a|
+        %li
+          =link_to a.file.file.filename, a.file.url
     =link_to 'To index', questions_path, class:['btn','btn-default']
     -if current_user == @question.user
       .btn-group
