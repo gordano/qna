@@ -6,9 +6,10 @@
     = @question.body
   .panel-footer
     .question-attach
-      - @question.attachments.each do |a|
-        %li
-          =link_to a.file.file.filename, a.file.url
+      - if @question.attachments.any?
+        - @question.attachments.each do |a|
+          %li
+            =link_to a.file.file.filename, a.file.url
     =link_to 'To index', questions_path, class:['btn','btn-default']
     -if current_user == @question.user
       .btn-group
@@ -18,8 +19,10 @@
 %h4
   Answers:
 .add-answer-form-error
-= bootstrap_form_for [@question, @question.answers.build], remote: true  do |f|
+= bootstrap_form_for [@question, @answers], remote: true  do |f|
   = f.text_area :body, label: 'Your answer text:'
+  = f.fields_for :attachments do |a|
+    = a.file_field :file
   = f.submit 'Add answer'
 
 

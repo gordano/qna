@@ -7,7 +7,9 @@ class QuestionsController < ApplicationController
   end
 
   def show
-    @answers = @question.answers
+    @answers = @question.answers.build
+    @answers.attachments.build
+
   end
 
   def new
@@ -16,7 +18,7 @@ class QuestionsController < ApplicationController
   end
 
   def edit
-
+    @question.attachments.build unless @question.attachments.any?
   end
 
   def create
@@ -49,7 +51,7 @@ class QuestionsController < ApplicationController
         @question = Question.find(params[:id])
       end
       def question_params
-        params.require(:question).permit(:title, :body, attachments_attributes: [:file])
+        params.require(:question).permit(:title, :body, attachments_attributes: [:id, :file, :_destroy])
       end
       def check_author
         redirect_to :back,

@@ -16,7 +16,7 @@ feature 'Attach file to question', %q{
     attach_file 'File', "#{Rails.root}/spec/spec_helper.rb"
     #save_and_open_page
     click_on 'Create Question'
-    expect(page).to_not have_link 'spec_helper.rb', href: 'public/uploads/attachment/file/1/spec_helper.rb.rb'
+    expect(page).to have_link 'spec_helper.rb'
 
   end
 end

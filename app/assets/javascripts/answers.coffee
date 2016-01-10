@@ -8,4 +8,3 @@ $ ->
     $(this).hide()
     answer_id = $(this).data('answerId')
     $("#answer-edit-"+answer_id).show()
-

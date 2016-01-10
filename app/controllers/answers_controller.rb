@@ -5,6 +5,7 @@ class AnswersController < ApplicationController
   before_action :check_author, only: [:destroy, :update]
   def new
     @answer = @question.answers.new
+    @answer.attachments.build
   end
 
   def create
@@ -37,7 +38,7 @@ class AnswersController < ApplicationController
 
   private
       def answer_params
-        params.require(:answer).permit(:body)
+        params.require(:answer).permit(:body, attachments_attributes: [:id, :file, :_destroy])
       end
       def find_answer
         @answer = Answer.find(params[:id])
