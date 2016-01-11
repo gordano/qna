@@ -23,6 +23,9 @@ class QuestionsController < ApplicationController
 
   def create
     @question = current_user.questions.new(question_params)
+    p '************************************************************************************************'
+      p question_params
+    p '************************************************************************************************'
       if @question.save
         redirect_to question_path(@question),
           notice: "You question successfully created."

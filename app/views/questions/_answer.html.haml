@@ -8,7 +8,7 @@
         - if answer.attachments.any? && answer.user != current_user
           - answer.attachments.each do |attach|
             %li
-              =link_to attach.file.file.filename, attach.file.url
+              =link_to attach.file.filename, attach.file.url
     .answer-best-box{data: {link: makebest_question_answer_path(@question,answer), id: answer.id} }
 
       -if current_user == answer.question.user and answer.best == false and answer.id
@@ -25,7 +25,7 @@
           - if answer.attachments.any?
             - answer.attachments.each do |attach|
               %li
-                =link_to attach.file.file.filename, attach.file.url
+                =link_to attach.file.filename, attach.file.url
 
 
       .answer-edit-form
