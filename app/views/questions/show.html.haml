@@ -19,12 +19,15 @@
 .add-answer-form-error
 = bootstrap_form_for [@question, @answers], remote: true  do |f|
   = f.text_area :body, label: 'Your answer text:'
-  = f.fields_for :attachments do |a|
-    = a.file_field :file
+  .field
+    = f.fields_for :attachments do |attach|
+      = render 'attachment_fields', f: attach
+    .links
+      = link_to_add_association 'Add', f, :attachments,
+        partial: 'attachment_fields', class: "btn btn-default"
   = f.submit 'Add answer'
 
 
-//=link_to "Add answer", new_question_answer_path(question_id:@question)
 .answers
   -@question.answers.each do |answer|
     - if answer.persisted?

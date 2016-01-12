@@ -6,4 +6,11 @@
   $('.answer-box-id-<%= @answer.id %> .answer-body').html('<%= j @answer.body %>');
   $('.answer-box-id-<%= @answer.id %> .edit-answer-link').show();
   $('form#answer-edit-<%= @answer.id %>').hide();
+  $('.answer-box-id-<%= @answer.id %>  .attachments-answer').html('<%= j render 'layouts/attachments', attachments: @answer.attachments %>');
+  <% if remotipart_submitted? %>
+      $('form#answer-edit-<%= @answer.id %>').html("<%= j "#{render 'edit', answer: @answer
+    }" %>");
+    <% else %>
+      $('form#answer-edit-<%= @answer.id %>').html("<%= j render 'edit', answer: @answer %>");
+  <% end %>
 <% end %>
