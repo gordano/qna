@@ -2,6 +2,6 @@
 
 FactoryGirl.define do
   factory :attachment do
-    file File.open(File.join(Rails.root, 'spec/rails_helper.rb'))
+    file { Rack::Test::UploadedFile.new(File.join(Rails.root, 'Gemfile')) }
   end
 end
