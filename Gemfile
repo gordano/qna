@@ -29,6 +29,9 @@ gem 'haml', '~> 4.0', '>= 4.0.7'
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 gem 'devise', '~> 3.5', '>= 3.5.2'
+gem 'carrierwave', '~> 0.10.0'
+gem 'remotipart', '~> 1.2', '>= 1.2.1'
+gem 'cocoon'
 
 # Use Unicorn as the app server
 # gem 'unicorn'

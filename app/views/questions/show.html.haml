@@ -5,6 +5,9 @@
   .panel-body
     = @question.body
   .panel-footer
+    .question-attach
+      = render 'layouts/attachments', attachments: @question.attachments
+
     =link_to 'To index', questions_path, class:['btn','btn-default']
     -if current_user == @question.user
       .btn-group
@@ -14,12 +17,17 @@
 %h4
   Answers:
 .add-answer-form-error
-= bootstrap_form_for [@question, @question.answers.build], remote: true  do |f|
+= bootstrap_form_for [@question, @answers], remote: true  do |f|
   = f.text_area :body, label: 'Your answer text:'
+  .field
+    = f.fields_for :attachments do |attach|
+      = render 'attachment_fields', f: attach
+    .links
+      = link_to_add_association 'Add', f, :attachments,
+        partial: 'attachment_fields', class: "btn btn-default"
   = f.submit 'Add answer'
 
 
-//=link_to "Add answer", new_question_answer_path(question_id:@question)
 .answers
   -@question.answers.each do |answer|
     - if answer.persisted?

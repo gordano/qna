@@ -4,8 +4,8 @@
 
 $ ->
   $('.answers').on 'click', '.edit-answer-link', (e) ->
+    console.log('click')
     e.preventDefault()
     $(this).hide()
     answer_id = $(this).data('answerId')
     $("#answer-edit-"+answer_id).show()
-

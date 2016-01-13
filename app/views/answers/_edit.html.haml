@@ -1,0 +1,12 @@
+=bootstrap_form_for [@question, answer], remote: true, html: {id: "answer-edit-#{answer.id}"} do |answer|
+
+  .form-errors
+    //-# content_tag(:div, class: ["form-errors-#{answer.id}"])
+  =answer.text_area :body, label: "You answer:"
+  =answer.fields_for :attachments do |attach|
+    = attach.object.file.filename
+    = render 'questions/attachment_fields', f: attach
+  .links
+    = link_to_add_association 'Add', answer, :attachments, partial: 'questions/attachment_fields', class: "btn btn-default"
+  =answer.submit 'Save'
+

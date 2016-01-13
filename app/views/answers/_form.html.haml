@@ -1,3 +1,5 @@
 = bootstrap_form_for([@question, @question.answers.build]) do |f|
   = f.text_area :body
+  = f.fields_for :attachments do |a|
+    = a.file_field :file
   = f.submit

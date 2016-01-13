@@ -1,4 +1,20 @@
+
+- if @question.errors.present?
+  - @question.errors.full_messages.each do |message|
+    .alert.alert-danger
+      =message
+.form-group
 = bootstrap_form_for([@question]) do |f|
-  = f.text_field :title
-  = f.text_area :body
-  = f.submit
+  .field
+    = f.text_field :title
+  .field
+    = f.text_area :body
+  #attachments-question
+    .field
+      = f.fields_for :attachments do |attach|
+        = render 'attachment_fields', f: attach
+    .links
+      = link_to_add_association 'Add', f, :attachments,
+        partial: 'attachment_fields', class: "btn btn-default"
+  .actions
+    =f.submit class: "btn btn-default"

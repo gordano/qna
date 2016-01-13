@@ -2,7 +2,14 @@ class Answer < ActiveRecord::Base
 	belongs_to :question
   belongs_to :user
 
+  has_many :attachments, as: :attachable, dependent: :destroy
+
   validates :body, :question_id, :user_id, presence: true
+
+
+  accepts_nested_attributes_for :attachments,
+            reject_if: proc{ |param| param[:file].blank? },
+            allow_destroy: true
 
   default_scope -> { order(best: :desc).order(created_at: :asc) }
   def make_best
