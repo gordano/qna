@@ -1,0 +1,9 @@
+<% if @answer.errors.present? %>
+  <% @answer.errors.full_messages.each do |message| %>
+    $('.form-errors').html('<%= j message%>');
+  <% end %>
+<% else %>
+  $('.answer-box-id-<%= @answer.id %> .answer-body').html('<%= j @answer.body %>');
+  $('.answer-box-id-<%= @answer.id %> .edit-answer-link').show();
+  $('form#answer-edit-<%= @answer.id %>').hide();
+<% end %>

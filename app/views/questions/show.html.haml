@@ -13,11 +13,14 @@
 
 %h4
   Answers:
+.add-answer-form-error
 = bootstrap_form_for [@question, @question.answers.build], remote: true  do |f|
-  = f.text_area :body
+  = f.text_area :body, label: 'Your answer text:'
   = f.submit 'Add answer'
 
 
 //=link_to "Add answer", new_question_answer_path(question_id:@question)
 .answers
-  = render 'answers'
+  -@question.answers.each do |answer|
+    - if answer.persisted?
+      =render 'answer', answer: answer

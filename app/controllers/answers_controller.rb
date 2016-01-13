@@ -1,8 +1,8 @@
 class AnswersController < ApplicationController
   before_action :authenticate_user!, except: :create
-  before_action :find_question, only: [:new,:create,:destroy]
-  before_action :find_answer, only: :destroy
-  before_action :check_author, only: :destroy
+  before_action :find_question, only: [:new,:create,:destroy, :update, :makebest]
+  before_action :find_answer, only: [:destroy, :update, :makebest]
+  before_action :check_author, only: [:destroy, :update]
   def new
     @answer = @question.answers.new
   end
@@ -16,14 +16,23 @@ class AnswersController < ApplicationController
       flash[:notice] = 'Please login to Add Comments'
       flash.keep(:notice)
       render js: "window.location.pathname = '#{new_user_session_path}'"
+
     end
+  end
+
+  def update
+    @answer.update(answer_params)
   end
 
   def destroy
     if @answer.destroy
-      redirect_to question_path(@question),
-                  notice: 'Your Answer was deleted'
+      #redirect_to question_path(@question),
+      #            notice: 'Your Answer was deleted'
     end
+  end
+
+  def makebest
+    @answer.make_best if @question.user == current_user
   end
 
   private

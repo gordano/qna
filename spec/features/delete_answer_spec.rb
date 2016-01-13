@@ -1,4 +1,4 @@
-require 'rails_helper'
+require_relative 'features_helper'
 
 feature 'Delete answer', %q{
   In order to delete wrong answer
@@ -13,18 +13,18 @@ feature 'Delete answer', %q{
   given!(:answer){ create(:answer, question: question, user: user)}
 
 
-  scenario 'Authenticated user try to revome answer' do
+  scenario 'Authenticated user try to revome answer', js: true do
     sign_in(user)
     visit question_path(question)
     click_on 'Remove My Answer'
-    expect(page).to have_content 'Your Answer was deleted'
+    expect(page).to_not have_content answer.body
   end
   scenario 'NON-authenticated user try to revome question and answer' do
     visit question_path(question)
     expect(page).to_not have_content 'Remove My Answer'
     expect(page).to_not have_content 'Delete'
   end
-  scenario 'Other user try to revome answer' do
+  scenario 'Other user try to remove answer' do
     sign_in(user_other)
     visit question_path(question)
     expect(page).to_not have_content 'Remove My Answer'
