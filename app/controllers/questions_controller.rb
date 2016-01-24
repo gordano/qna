@@ -1,4 +1,6 @@
 class QuestionsController < ApplicationController
+  include VoteableController
+
   before_action :authenticate_user!, except: [:show, :index]
   before_action :find_question, only: [:show, :edit, :update, :destroy]
   before_action :check_author, only: [:edit, :destroy]

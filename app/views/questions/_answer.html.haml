@@ -17,6 +17,8 @@
       -if answer.best == true
         %span{class:["this-best-answer-#{answer.id}"]}
           Best Answer
+    .votes_block
+      = render partial: 'votes/votes_block', locals: { voted_object: answer }
   -if user_signed_in?
     -if answer.user == current_user
       -unless answer.body.empty?

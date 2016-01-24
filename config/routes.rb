@@ -1,8 +1,15 @@
 Rails.application.routes.draw do
   devise_for :users
   root 'questions#index'
-  resources :questions do
-    resources :answers do
+  concern :voteable do
+    member do
+      post 'vote_plus'
+      post 'vote_minus'
+      post 'devote'
+     end
+    end
+  resources :questions, concerns: :voteable do
+    resources :answers, concerns: :voteable do
       patch :makebest, on: :member
     end
   end

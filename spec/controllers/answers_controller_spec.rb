@@ -99,4 +99,85 @@ RSpec.describe AnswersController, :type => :controller do
       expect(assigns(:answer).best).to be_falsey
     end
   end
+  describe 'POST #vote_plus' do
+    let!(:other_user) {create(:user)}
+    context 'Authorized user' do
+
+      let!(:answer) { create :answer, question: question, user: @user }
+      let!(:other_answer) { create :answer, question: question, user: other_user }
+
+      it 'can vote for other_answer' do
+        expect { post :vote_plus, question_id: question, id: other_answer }.to change(other_answer.votes, :count)
+      end
+
+      it 'and other_answer has votes sum' do
+        post :vote_plus, question_id: question, id: other_answer
+        expect(other_answer.votes_calc).to eq 1
+      end
+
+      it 'but he cant vote twice' do
+        create :vote, voteable: other_answer, user: @user
+        post :vote_plus, question_id: question, id: other_answer
+        expect(other_answer.votes_calc).to eq 1
+      end
+
+      it 'cant vote for own answer' do
+        expect { post :vote_plus, question_id: question, id: answer }.to_not change(answer.votes, :count)
+      end
+    end
+  end
+  describe 'POST #vote_minus' do
+    let!(:other_user) {create(:user)}
+    context 'Authorized user' do
+      let!(:answer) { create :answer, question: question, user: @user }
+      let!(:other_answer) { create :answer, question: question, user: other_user }
+
+      it 'can vote for other_answer' do
+        expect { post :vote_minus, question_id: question, id: other_answer }.to change(other_answer.votes, :count)
+      end
+
+      it 'and other_answer has votes sum' do
+        post :vote_minus, question_id: question, id: other_answer
+        expect(other_answer.votes_calc).to eq -1
+      end
+
+      it 'but he cant vote twice' do
+        create :vote, voteable: other_answer, user: @user
+        post :vote_minus, question_id: question, id: other_answer
+        expect(other_answer.votes_calc).to eq -1
+      end
+
+      it 'cant vote for his answer' do
+        expect { post :vote_minus, question_id: question, id: answer }.to_not change(Vote, :count)
+      end
+    end
+  end
+  describe 'POST #devote' do
+    let!(:other_user) {create(:user)}
+    context 'Authorized user' do
+      let!(:answer) { create :answer, question: question, user: @user }
+      let!(:other_answer) { create :answer, question: question, user: other_user }
+      let!(:vote) { create :vote, voteable: answer, user: @user}
+
+      it 'can devote for answer with his vote' do
+        expect { post :devote, question_id: question, id: answer }.to change(answer.votes, :count)
+      end
+
+      it 'and answer has zero votes sum' do
+        post :devote, question_id: question, id: answer
+
+        expect(answer.votes_calc).to eq 0
+      end
+
+      it 'and then vote one more time' do
+        #post :devote, question_id: question, id: answer
+        post :vote_plus, question_id: question, id: other_answer
+        expect(other_answer.votes_calc).to eq 1
+      end
+
+      it 'cant devote for answer without his vote' do
+        expect { post :devote, question_id: question, id: other_answer }.to_not change(Vote, :count)
+      end
+    end
+  end
 end
