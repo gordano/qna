@@ -14,7 +14,7 @@ feature 'Make question vote', %q{
       visit question_path(question)
       within ".question .votes_block" do
         click_on '+'
-        expect(page).to have_link 'Your vote: 1, remove vote?'
+        expect(page).to have_link 'Your vote: 1, removes vote?'
       end
     end
     scenario 'Make vote -1', js: true do
@@ -22,7 +22,7 @@ feature 'Make question vote', %q{
       visit question_path(question)
       within ".question .votes_block" do
         click_on '-'
-        expect(page).to have_link 'Your vote: -1, remove vote?'
+        expect(page).to have_link 'Your vote: -1, removes vote?'
       end
     end
     scenario 'Remove vote', js: true do
@@ -30,7 +30,7 @@ feature 'Make question vote', %q{
       visit question_path(question)
       within ".question .votes_block" do
         click_on '+'
-        click_on 'Your vote: 1, remove vote?'
+        click_on 'Your vote: 1, removes vote?'
         expect(page).to have_link '+'
       end
     end

@@ -6,7 +6,7 @@ FactoryGirl.define do
     association :voteable
     value 0
 
-    trait :question do
+    trait :question_vote do
       association :voteable, factory: :question
     end
 

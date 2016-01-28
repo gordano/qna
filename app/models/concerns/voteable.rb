@@ -6,19 +6,19 @@ module Voteable
     end
 
     def get_vote_value(user)
-        votes.where(user_id: user).first.value
+        votes.find_by(user_id: user).value
     end
 
     def votes_calc
         votes.sum(:value)
     end
 
-    def is_voted?(user)
-       votes.where(user_id: user).first ? true : false
+    def exists?(user)
+       votes.find_by(user_id: user) ? true : false
     end
 
     def devote(user)
-        vote = votes.where(user_id: user).first
+        vote = votes.find_by(user_id: user)
         if vote
             vote.destroy
             return true

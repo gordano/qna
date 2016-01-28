@@ -4,4 +4,5 @@ class Vote < ActiveRecord::Base
 
   validates :value, :user_id, :voteable_id, presence: true
   validates :value, numericality: true
+  validates :user_id, uniqueness: { scope: [:voteable_id, :voteable_type]}
 end
