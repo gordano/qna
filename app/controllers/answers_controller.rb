@@ -1,4 +1,7 @@
 class AnswersController < ApplicationController
+  include VoteableController
+
+
   before_action :authenticate_user!, except: :create
   before_action :find_question, only: [:new,:create,:destroy, :update, :makebest]
   before_action :find_answer, only: [:destroy, :update, :makebest]
