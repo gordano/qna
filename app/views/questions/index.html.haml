@@ -1,10 +1,7 @@
--@questions.each do |q|
-  .panel.panel-default
-    .panel-heading
-      %h3
-        =link_to q.title, question_path(q)
-    .panel-body
-      =q.body
-    .panel-footer
-      .btn.btn-defult
-        = 'Автор вопроса: ' + q.user.email
+.questions-list
+  -@questions.each do |q|
+    =render 'question', question: q
+
+
+= subscribe_to "/questions"
+

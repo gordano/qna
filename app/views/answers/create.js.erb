@@ -3,6 +3,9 @@
     $('.add-answer-form-error').html('<%= j message%>');
   <% end %>
 <% else %>
-  $('.answers').append('<%= j render 'questions/answer', answer: @answer %>');
+  <% publish_to "/questions/#{@question.id}/answers" do %>
+    $('.answers').append('<%= j render 'questions/answer', answer: @answer %>');
+  <% end %>
+
   $('#answer_body').val('');
 <% end %>

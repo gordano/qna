@@ -25,12 +25,15 @@ class QuestionsController < ApplicationController
 
   def create
     @question = current_user.questions.new(question_params)
-      if @question.save
-        redirect_to question_path(@question),
-          notice: "You question successfully created."
-      else
-        render :new
-      end
+    @question.save
+    if @question.save
+      flash[:notice] = 'You question successfully created.'
+      publish
+      redirect_to @question
+    else
+      render :new
+    end
+
   end
 
   def update
@@ -46,6 +49,11 @@ class QuestionsController < ApplicationController
     @question.destroy
     redirect_to questions_path,
       notice: 'Your Question was deleted'
+  end
+  def publish
+    PrivatePub.publish_to "/questions",
+                          question: @question.to_json,
+                          author: @question.user.email.to_json
   end
 
   private

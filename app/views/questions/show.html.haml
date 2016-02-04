@@ -35,3 +35,5 @@
   -@question.answers.each do |answer|
     - if answer.persisted?
       =render 'answer', answer: answer
+
+= subscribe_to "/questions/#{@question.id}/answers"

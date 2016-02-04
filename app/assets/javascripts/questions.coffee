@@ -2,6 +2,15 @@
 # All this logic will automatically be available in application.js.
 # You can use CoffeeScript in this file: http://coffeescript.org/
 
+$ ->
+  channel = '/questions'
+  PrivatePub.subscribe '/questions', (data, channel) ->
+    question = $.parseJSON(data['question'])
+    author = $.parseJSON(data['author'])
+    $('.questions-list').append(JST["questions/index"]({
+      question: question,
+      author: author
+    }))
 
 voteDvote = ->
   $(document.body).on 'ajax:success', '.question .question-devote-link', (e, data, status, xhr) ->
@@ -30,6 +39,7 @@ ready = ->
   voteDislike()
 
 $(document).ready(ready)
+
 
 
 

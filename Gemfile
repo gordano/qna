@@ -32,6 +32,9 @@ gem 'devise', '~> 3.5', '>= 3.5.2'
 gem 'carrierwave', '~> 0.10.0'
 gem 'remotipart', '~> 1.2', '>= 1.2.1'
 gem 'cocoon'
+gem 'private_pub'
+gem 'thin'
+gem 'skim'
 
 # Use Unicorn as the app server
 # gem 'unicorn'
