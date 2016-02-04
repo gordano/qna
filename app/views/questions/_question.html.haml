@@ -1,0 +1,9 @@
+.panel.panel-default
+  .panel-heading
+    %h3
+      =link_to question.title, question_path(question)
+  .panel-body
+    =question.body
+  .panel-footer
+    .btn.btn-defult
+      = 'Автор вопроса: ' + question.user.email
