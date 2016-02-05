@@ -1,0 +1,42 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+// Прописать DATA для классов воизбежание очистки всех полей
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+- if resource.class.name.underscore == 'answer'
+  .add-comment-form-error{data: {resource_id: resource.id}}
+  .comment-form.of-answer
+    = bootstrap_form_for (comment.present? ? [question,resource, comment] : [question, resource, Comment.new]), remote: true do |f|
+      = f.text_area :body , class: 'comment-body',data: {resource_id: resource.id}
+      = f.submit 'Create answer comment'
+
+- else
+  .add-comment-form-error{data: {resource_id: resource.id}}
+  .comment-form.of-question
+    = bootstrap_form_for (comment.present? ? [resource, comment] : [resource, Comment.new]), remote: true do |f|
+      = f.text_area :body , class: 'comment-body',data: {resource_id: resource.id}
+      = f.submit 'Create question comment'

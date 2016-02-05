@@ -1,0 +1,22 @@
+<% if @comment.errors.present? %>
+  <% @comment.errors.full_messages.each do |message| %>
+    $('.add-comment-form-error[data-resource-id="<%= j @comment.commentable_id%>"] ')
+    .html('<%= j message%>');
+  <% end %>
+<% else %>
+  <% publish_to "/question/#{@comment.commentable_id}/comments" do %>
+    $('.comments[data-resource-id="<%= j @comment.commentable_id%>"]')
+    .html('<%= j render 'comments/index', resource: @resourse %>');
+
+    $('.add-comment-form-error[data-resource-id="<%= j @comment.commentable_id%>"]')
+    .html('');
+
+    $('.comment-body[data-resource-id="<%= j @comment.commentable_id%>"]')
+    .val('');
+
+  <% end %>
+<% end %>
+
+
+//of-question add-comment-form-error
+//<div class="comments" data-resource-id="108"

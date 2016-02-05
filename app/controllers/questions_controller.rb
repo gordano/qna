@@ -9,9 +9,9 @@ class QuestionsController < ApplicationController
   end
 
   def show
+    @comment = @question.comments.build
     @answers = @question.answers.build
     @answers.attachments.build
-
   end
 
   def new
@@ -46,7 +46,10 @@ class QuestionsController < ApplicationController
   end
 
   def destroy
+
     @question.destroy
+
+
     redirect_to questions_path,
       notice: 'Your Question was deleted'
   end
@@ -58,9 +61,10 @@ class QuestionsController < ApplicationController
 
   private
       def find_question
-        @question = Question.find(params[:id])
+        @question = Question.find(params[:id]) unless params[:answer]
       end
       def question_params
+
         params.require(:question).permit(:title, :body, attachments_attributes: [:id, :file, :_destroy])
       end
       def check_author

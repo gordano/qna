@@ -1,0 +1,6 @@
+
+%div{class:['comments',"of-" + (resource.class.name == "Answer" ? "answer" : "question").to_s], data:{resource_id: resource.id}}
+  - resource.comments.each do |c|
+    - unless c.body.nil?
+      %li
+        = c.body

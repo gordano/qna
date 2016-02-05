@@ -36,6 +36,11 @@
 
       .answer-edit-form
         = render 'answers/edit', answer: answer
-
+  .comments-list
+    %h6
+      Comments
+    = render 'comments/index', resource: answer, type: "answer"
+    - if user_signed_in?
+      = render 'comments/form',question: @question, resource: answer, comment: @comment
 
 

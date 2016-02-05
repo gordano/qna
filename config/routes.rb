@@ -7,9 +7,14 @@ Rails.application.routes.draw do
       post 'vote_minus'
       post 'devote'
      end
-    end
-  resources :questions, concerns: :voteable do
-    resources :answers, concerns: :voteable do
+  end
+
+  concern :commentable do
+    resources :comments
+  end
+
+  resources :questions, concerns: [:voteable, :commentable] do
+    resources :answers, concerns: [:voteable, :commentable] do
       patch :makebest, on: :member
     end
   end
