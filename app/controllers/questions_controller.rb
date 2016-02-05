@@ -46,10 +46,7 @@ class QuestionsController < ApplicationController
   end
 
   def destroy
-
     @question.destroy
-
-
     redirect_to questions_path,
       notice: 'Your Question was deleted'
   end
@@ -61,7 +58,7 @@ class QuestionsController < ApplicationController
 
   private
       def find_question
-        @question = Question.find(params[:id]) unless params[:answer]
+        @question = Question.find(params[:id])
       end
       def question_params
 
