@@ -2,16 +2,17 @@ class CommentsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_resource
 
+  respond_to :js
   def create
-    @comment = @resourse.comments.new(comment_params)
-    @comment.user = current_user
-    @comment.save
+    respond_with @comment = @resourse.comments.create(comment_params.merge(user: current_user))
+    #@comment = @resourse.comments.new(comment_params)
+    #@comment.user = current_user
+    #@comment.save
 
     #if @comment.save
     #  PrivatePub.publish_to "/#{@resourse.class.name.underscore}/#{@resourse.id}/comments", comment: @comment.to_json
     #end
   end
-
       private
 
         def comment_params
