@@ -16,6 +16,13 @@
         .btn-group
           =link_to 'Edit question', edit_question_path(@question), class:['btn','btn-default']
           =link_to 'Delete', @question, method: :delete, data: {confirm: "Are you sure?"}, class:['btn','btn-default']
+    .comments-list
+      %h6
+        Comments
+      = render 'comments/index', resource: @question
+      - if user_signed_in?
+        = render 'comments/form', resource: @question, comment: @comment
+
 
 %h4
   Answers:
@@ -35,3 +42,7 @@
   -@question.answers.each do |answer|
     - if answer.persisted?
       =render 'answer', answer: answer
+      = subscribe_to "/question/#{answer.id}/comments"
+
+= subscribe_to "/questions/#{@question.id}/answers"
+= subscribe_to "/question/#{@question.id}/comments"

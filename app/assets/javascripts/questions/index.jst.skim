@@ -1,0 +1,9 @@
+.panel.panel-default
+  .panel-heading
+    h3
+      a href= "/questions/#{@question.id}" = @question.title
+  .panel-body
+    = @question.body
+  .panel-footer
+    .btn.btn-defult
+      = 'Автор вопроса: ' + @author

@@ -9,9 +9,9 @@ class QuestionsController < ApplicationController
   end
 
   def show
+    @comment = @question.comments.build
     @answers = @question.answers.build
     @answers.attachments.build
-
   end
 
   def new
@@ -25,12 +25,15 @@ class QuestionsController < ApplicationController
 
   def create
     @question = current_user.questions.new(question_params)
-      if @question.save
-        redirect_to question_path(@question),
-          notice: "You question successfully created."
-      else
-        render :new
-      end
+    @question.save
+    if @question.save
+      flash[:notice] = 'You question successfully created.'
+      publish
+      redirect_to @question
+    else
+      render :new
+    end
+
   end
 
   def update
@@ -47,12 +50,18 @@ class QuestionsController < ApplicationController
     redirect_to questions_path,
       notice: 'Your Question was deleted'
   end
+  def publish
+    PrivatePub.publish_to "/questions",
+                          question: @question.to_json,
+                          author: @question.user.email.to_json
+  end
 
   private
       def find_question
         @question = Question.find(params[:id])
       end
       def question_params
+
         params.require(:question).permit(:title, :body, attachments_attributes: [:id, :file, :_destroy])
       end
       def check_author
