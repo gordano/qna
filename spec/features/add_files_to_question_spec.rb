@@ -23,8 +23,10 @@ feature 'Add files to question', %q{
       fill_in 'Title', with: 'Test question'
       fill_in 'Body', with: 'Test question body'
       click_on 'Add'
+      click_on 'Add'
       all("input[type='file']").first.set("#{Rails.root}/config.ru")
       all("input[type='file']").last.set("#{Rails.root}/Gemfile")
+      #save_and_open_page
       click_on 'Create Question'
 
       expect(page).to have_link 'config.ru'
