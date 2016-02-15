@@ -1,8 +1,6 @@
 class AnswersController < ApplicationController
   include VoteableController
-
-
-  before_action :authenticate_user!, except: :create
+  before_action :authenticate_user! ,except: :create
   before_action :find_question, only: [:new,:create,:destroy, :update, :makebest]
   before_action :find_answer, only: [:destroy, :update, :makebest]
   before_action :check_author, only: [:destroy, :update]
@@ -11,32 +9,28 @@ class AnswersController < ApplicationController
     @answer.attachments.build
   end
 
+  respond_to :js
   def create
     if user_signed_in?
-      @answer = @question.answers.new(answer_params)
-      @answer.user = current_user
-      @answer.save
+      respond_with @answer = @question.answers.create(answer_params.merge(user: current_user))
     else
       flash[:notice] = 'Please login to Add Comments'
       flash.keep(:notice)
       render js: "window.location.pathname = '#{new_user_session_path}'"
-
     end
   end
 
   def update
     @answer.update(answer_params)
+    respond_with @answer
   end
 
   def destroy
-    if @answer.destroy
-      #redirect_to question_path(@question),
-      #            notice: 'Your Answer was deleted'
-    end
+    respond_with @answer.destroy
   end
 
   def makebest
-    @answer.make_best if @question.user == current_user
+    @answer.make_best if @question.user_id == current_user.id
   end
 
   private
@@ -51,6 +45,6 @@ class AnswersController < ApplicationController
       end
       def check_author
         redirect_to :back,
-          notice: 'You not author' unless @answer.user == current_user
+          notice: 'You not author' unless @answer.user_id == current_user.id
       end
 end

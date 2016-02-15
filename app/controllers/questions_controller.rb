@@ -4,56 +4,35 @@ class QuestionsController < ApplicationController
   before_action :authenticate_user!, except: [:show, :index]
   before_action :find_question, only: [:show, :edit, :update, :destroy]
   before_action :check_author, only: [:edit, :destroy]
+  before_action :build_answer, only: :show
+  before_action :build_attachments, only: [:edit,:show]
+
   def index
-    @questions = Question.all
+    respond_with @questions = Question.all
   end
 
   def show
-    @comment = @question.comments.build
-    @answers = @question.answers.build
-    @answers.attachments.build
+    respond_with @question
   end
 
   def new
-    @question = current_user.questions.new
-    @question.attachments.build
+    respond_with @question = Question.new
   end
 
   def edit
-    @question.attachments.build unless @question.attachments.any?
   end
 
   def create
-    @question = current_user.questions.new(question_params)
-    @question.save
-    if @question.save
-      flash[:notice] = 'You question successfully created.'
-      publish
-      redirect_to @question
-    else
-      render :new
-    end
-
+    respond_with @question = current_user.questions.create(question_params)
   end
 
   def update
-    if @question.update(question_params)
-      redirect_to @question,
-        notice: "You question successfully updated."
-    else
-      render :edit
-    end
+    @question.update question_params
+    respond_with @question
   end
 
   def destroy
-    @question.destroy
-    redirect_to questions_path,
-      notice: 'Your Question was deleted'
-  end
-  def publish
-    PrivatePub.publish_to "/questions",
-                          question: @question.to_json,
-                          author: @question.user.email.to_json
+    respond_with @question.destroy
   end
 
   private
@@ -61,11 +40,16 @@ class QuestionsController < ApplicationController
         @question = Question.find(params[:id])
       end
       def question_params
-
         params.require(:question).permit(:title, :body, attachments_attributes: [:id, :file, :_destroy])
       end
       def check_author
         redirect_to :back,
-          notice: 'You not author' unless @question.user == current_user
+          notice: 'You not author' unless @question.user_id == current_user.id
+      end
+      def build_answer
+        @answer = @question.answers.build
+      end
+      def build_attachments
+        @attachment = @question.attachments ? @question.attachments.any? : @question.attachments.build
       end
 end

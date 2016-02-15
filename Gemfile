@@ -35,7 +35,7 @@ gem 'cocoon'
 gem 'private_pub'
 gem 'thin'
 gem 'skim'
-
+gem 'responders'
 # Use Unicorn as the app server
 # gem 'unicorn'
 
