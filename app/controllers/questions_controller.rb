@@ -40,12 +40,11 @@ class QuestionsController < ApplicationController
         @question = Question.find(params[:id])
       end
       def question_params
-
         params.require(:question).permit(:title, :body, attachments_attributes: [:id, :file, :_destroy])
       end
       def check_author
         redirect_to :back,
-          notice: 'You not author' unless @question.user == current_user
+          notice: 'You not author' unless @question.user_id == current_user.id
       end
       def build_answer
         @answer = @question.answers.build

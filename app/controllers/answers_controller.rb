@@ -30,7 +30,7 @@ class AnswersController < ApplicationController
   end
 
   def makebest
-    @answer.make_best if @question.user == current_user
+    @answer.make_best if @question.user_id == current_user.id
   end
 
   private
@@ -45,6 +45,6 @@ class AnswersController < ApplicationController
       end
       def check_author
         redirect_to :back,
-          notice: 'You not author' unless @answer.user == current_user
+          notice: 'You not author' unless @answer.user_id == current_user.id
       end
 end
