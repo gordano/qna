@@ -36,6 +36,9 @@ gem 'private_pub'
 gem 'thin'
 gem 'skim'
 gem 'responders'
+gem 'omniauth'
+gem 'omniauth-facebook'
+
 # Use Unicorn as the app server
 # gem 'unicorn'
 
