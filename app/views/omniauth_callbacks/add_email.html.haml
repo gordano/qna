@@ -1,0 +1,6 @@
+%h3
+  Please fill in your email for finish sign in process
+= form_tag finish_registration_path, method: :post do
+  .form-group
+    = email_field 'user', :email, placeholder: 'Email', class: "form-control"
+    = submit_tag 'Submit', value: 'Continue', class: "form-control"
