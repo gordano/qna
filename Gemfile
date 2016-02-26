@@ -36,6 +36,11 @@ gem 'private_pub'
 gem 'thin'
 gem 'skim'
 gem 'responders'
+gem 'omniauth'
+gem 'omniauth-facebook'
+gem 'omniauth-twitter'
+gem 'letter_opener'
+
 # Use Unicorn as the app server
 # gem 'unicorn'
 

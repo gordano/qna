@@ -1,5 +1,11 @@
 Rails.application.routes.draw do
-  devise_for :users
+  devise_for :users, controllers: { omniauth_callbacks: 'omniauth_callbacks' }
+  #match '/users/:id/finish_signup' => 'users#finish_signup', via: [:get, :patch], :as => :finish_signup
+  devise_scope :user do
+    get '/user/auth/failure'=>'omniauth_callbacks#failure'
+    post '/finish_registration'=>'omniauth_callbacks#finish_registration'
+  end
+
   root 'questions#index'
   concern :voteable do
     member do
