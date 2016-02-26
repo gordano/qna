@@ -40,6 +40,7 @@ gem 'omniauth'
 gem 'omniauth-facebook'
 gem 'omniauth-twitter'
 gem 'letter_opener'
+gem 'cancancan'
 
 # Use Unicorn as the app server
 # gem 'unicorn'

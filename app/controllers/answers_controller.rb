@@ -4,6 +4,9 @@ class AnswersController < ApplicationController
   before_action :find_question, only: [:new,:create,:destroy, :update, :makebest]
   before_action :find_answer, only: [:destroy, :update, :makebest]
   before_action :check_author, only: [:destroy, :update]
+
+  authorize_resource
+
   def new
     @answer = @question.answers.new
     @answer.attachments.build
