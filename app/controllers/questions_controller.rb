@@ -7,6 +7,8 @@ class QuestionsController < ApplicationController
   before_action :build_answer, only: :show
   before_action :build_attachments, only: [:edit,:show]
 
+  authorize_resource
+
   def index
     respond_with @questions = Question.all
   end

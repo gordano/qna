@@ -17,7 +17,7 @@
                   %i.glyphicon.glyphicon-search
 
       .navbar-brand= link_to "QnA", root_path
-      - if user_signed_in?
+      - if can?(:create, Question)
         %ul.nav.navbar-nav.navbar-right
           %li= link_to "New Question", new_question_path
           %li= link_to "My Questions"

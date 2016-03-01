@@ -12,25 +12,24 @@
 
     .answer-best-box{data: {link: makebest_question_answer_path(@question,answer), id: answer.id} }
 
-      -if current_user == answer.question.user and answer.best == false and answer.id
+      -if can?(:update, @question) and answer.best == false and answer.id
         =link_to 'Check as best Answer', makebest_question_answer_path(@question,answer), method: :patch ,class:["best-answer-#{answer.id}"],remote: true
       -if answer.best == true
         %span{class:["this-best-answer-#{answer.id}"]}
           Best Answer
     .votes_block
       = render partial: 'votes/votes_block', locals: { voted_object: answer }
-  -if user_signed_in?
-    -if answer.user == current_user
-      -unless answer.body.empty?
-        .btn-group
-          =link_to 'Remove My Answer', [@question, answer], method: :delete, data: {confirm: "Are you sure?"},remote: true
-          =link_to 'Edit My Answer', '', data: {answer_id: answer.id}, class:["edit-answer-link"]
-          .attachments-answer
-            - if answer.attachments.any?
-              - answer.attachments.each do |attach|
-                %li
-                  .field
-                  =link_to attach.file.filename, attach.file.url
+  -if can?(:update, answer)
+    -unless answer.body.empty?
+      .btn-group
+        =link_to 'Remove My Answer', [@question, answer], method: :delete, data: {confirm: "Are you sure?"},remote: true
+        =link_to 'Edit My Answer', '', data: {answer_id: answer.id}, class:["edit-answer-link"]
+        .attachments-answer
+          - if answer.attachments.any?
+            - answer.attachments.each do |attach|
+              %li
+                .field
+                =link_to attach.file.filename, attach.file.url
 
 
 
@@ -40,7 +39,7 @@
     %h6
       Comments
     = render 'comments/index', resource: answer, type: "answer"
-    - if user_signed_in?
+    - if can?(:create, Comment)
       = render 'comments/form',question: @question, resource: answer, comment: @comment
 
 
