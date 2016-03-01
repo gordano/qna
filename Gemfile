@@ -41,6 +41,8 @@ gem 'omniauth-facebook'
 gem 'omniauth-twitter'
 gem 'letter_opener'
 gem 'cancancan'
+gem 'doorkeeper'
+
 
 # Use Unicorn as the app server
 # gem 'unicorn'
@@ -61,6 +63,7 @@ group :development, :test do
   gem 'rspec-rails', '3.1.0'
   gem 'factory_girl_rails', '4.4.1'
   gem 'capybara-webkit', '~> 1.7', '>= 1.7.1'
+  gem 'json_spec'
 end
 
 group :test do
