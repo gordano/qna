@@ -1,6 +1,6 @@
 class Api::V1::BaseController < ApplicationController
   check_authorization
-
+  protect_from_forgery with: :null_session
   before_action :doorkeeper_authorize!
   respond_to :json
 
