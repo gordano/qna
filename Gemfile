@@ -42,6 +42,9 @@ gem 'omniauth-twitter'
 gem 'letter_opener'
 gem 'cancancan'
 gem 'doorkeeper'
+gem 'active_model_serializers'
+gem 'oj'
+gem 'oj_mimic_json'
 
 
 # Use Unicorn as the app server

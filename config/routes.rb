@@ -31,6 +31,9 @@ Rails.application.routes.draw do
       resources :profiles, only: [:index] do
         get :me, on: :collection
       end
+      resources :questions do
+        resources :answers
+      end
     end
   end
   # The priority is based upon order of creation: first created -> highest priority.
