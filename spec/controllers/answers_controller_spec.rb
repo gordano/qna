@@ -6,53 +6,51 @@ RSpec.describe AnswersController, :type => :controller do
   let(:question) {create(:question, user: @user)}
 
   describe 'POST #create' do
+    subject { post :create, answer: attributes_for(:answer), question_id: question, format: :js }
     context 'with valid attributes' do
+
       it 'saved the new answer in database' do
-          expect { post :create, question_id: question, answer: attributes_for(:answer), format: :js }.to change(question.answers, :count).by(1)
+        expect { subject }.to change(@user.answers, :count).by(1)
       end
+
+      it 'answer should be added to question' do
+        expect { subject }.to change(question.answers, :count).by(1)
+      end
+
       it 'render create template' do
-          post :create, question_id: question, answer: attributes_for(:answer), format: :js
-          expect(response).to render_template :create
+        subject
+        expect(response).to render_template :create
+      end
+      it_behaves_like 'Publishable', format: :js do
+        let(:channel) { "/questions/#{question.id}/answers" }
       end
     end
     context 'with in-valid attributes' do
+      subject { post :create, answer: attributes_for(:invalid_answer), question_id: question, format: :js }
       it 'not saved the new answer in database' do
-        expect { post :create, question_id: question ,answer: attributes_for(:invalid_answer), format: :js }.to_not change(Answer, :count)
+        expect { subject }.to_not change(Answer, :count)
       end
       it 'render create template' do
-        post :create, question_id: question, answer: attributes_for(:invalid_answer), format: :js
+
+        subject
         expect(response).to render_template :create
       end
     end
   end
   describe 'PATCH #update' do
+    subject { patch :update, id: answer, question_id: question, answer: { body: 'new body' }, format: :js }
+    before { subject }
     context 'valid attributes' do
       it 'assigned the requested answer to @answer' do
-        patch :update, id:answer,
-                       question_id: question.id,
-                       user_id: @user.id,
-                       answer: attributes_for(:answer),
-                       format: :js
-
         expect(assigns(:answer)).to eq answer
       end
       it 'change answer attributes' do
-        patch :update, id:answer,
-                       question_id: question.id,
-                       user_id: @user.id,
-                       answer: { body: 'new body'},
-                       format: :js
         answer.reload
         expect(answer.body).to eq 'new body'
 
       end
 
       it 'stand in question page' do
-        patch :update, id:answer,
-                       question_id: question.id,
-                       user_id: @user.id,
-                       answer:  attributes_for(:answer),
-                       format: :js
         expect(response).to render_template :update
       end
     end
@@ -99,85 +97,8 @@ RSpec.describe AnswersController, :type => :controller do
       expect(assigns(:answer).best).to be_falsey
     end
   end
-  describe 'POST #vote_plus' do
-    let!(:other_user) {create(:user)}
-    context 'Authorized user' do
-
-      let!(:answer) { create :answer, question: question, user: @user }
-      let!(:other_answer) { create :answer, question: question, user: other_user }
-
-      it 'can vote for other_answer' do
-        expect { post :vote_plus, question_id: question, id: other_answer }.to change(other_answer.votes, :count)
-      end
-
-      it 'and other_answer has votes sum' do
-        post :vote_plus, question_id: question, id: other_answer
-        expect(other_answer.votes_calc).to eq 1
-      end
-
-      it 'but he cant vote twice' do
-        create :vote, voteable: other_answer, user: @user
-        post :vote_plus, question_id: question, id: other_answer
-        expect(other_answer.votes_calc).to eq 1
-      end
-
-      it 'cant vote for own answer' do
-        expect { post :vote_plus, question_id: question, id: answer }.to_not change(answer.votes, :count)
-      end
-    end
-  end
-  describe 'POST #vote_minus' do
-    let!(:other_user) {create(:user)}
-    context 'Authorized user' do
-      let!(:answer) { create :answer, question: question, user: @user }
-      let!(:other_answer) { create :answer, question: question, user: other_user }
-
-      it 'can vote for other_answer' do
-        expect { post :vote_minus, question_id: question, id: other_answer }.to change(other_answer.votes, :count)
-      end
-
-      it 'and other_answer has votes sum' do
-        post :vote_minus, question_id: question, id: other_answer
-        expect(other_answer.votes_calc).to eq -1
-      end
-
-      it 'but he cant vote twice' do
-        create :vote, voteable: other_answer, user: @user
-        post :vote_minus, question_id: question, id: other_answer
-        expect(other_answer.votes_calc).to eq -1
-      end
-
-      it 'cant vote for his answer' do
-        expect { post :vote_minus, question_id: question, id: answer }.to_not change(Vote, :count)
-      end
-    end
-  end
-  describe 'POST #devote' do
-    let!(:other_user) {create(:user)}
-    context 'Authorized user' do
-      let!(:answer) { create :answer, question: question, user: @user }
-      let!(:other_answer) { create :answer, question: question, user: other_user }
-      let!(:vote) { create :vote, voteable: answer, user: @user}
-
-      it 'can devote for answer with his vote' do
-        expect { post :devote, question_id: question, id: answer }.to change(answer.votes, :count)
-      end
-
-      it 'and answer has zero votes sum' do
-        post :devote, question_id: question, id: answer
-
-        expect(answer.votes_calc).to eq 0
-      end
-
-      it 'and then vote one more time' do
-        #post :devote, question_id: question, id: answer
-        post :vote_plus, question_id: question, id: other_answer
-        expect(other_answer.votes_calc).to eq 1
-      end
-
-      it 'cant devote for answer without his vote' do
-        expect { post :devote, question_id: question, id: other_answer }.to_not change(Vote, :count)
-      end
-    end
+  it_behaves_like 'Votable', Answer do
+    let(:object) { create(:answer, question: question, user: user) }
+    let(:object_second) { create(:answer, question: question, user: other_user) }
   end
 end
