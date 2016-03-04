@@ -13,6 +13,7 @@ class Api::V1::QuestionsController < Api::V1::BaseController
     respond_with @question
   end
 
+  #http://localhost:3000/api/v1/questions?access_token=<..>&question[title]='<..>'&question[body]='<..>'
   def create
     @question = current_resource_owner.questions.create(question_params)
     respond_with @question
