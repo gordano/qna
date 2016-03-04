@@ -51,11 +51,15 @@ describe 'Ability' do
     it { should be_able_to :vote, foreign_answer, user: user }
     it { should_not be_able_to :vote, question, user: user }
 
+    #Subscription
+    it { should be_able_to :create, Subscription }
+    it { should be_able_to :destroy, Subscription, user: user }
+
   end
 
-  describe 'for admin' do
-    let(:user) { create :user, is_admin: true }
+  #describe 'for admin' do
+  #  let(:user) { create :user, is_admin: true }
 
-    it { should be_able_to :manage, :all }
-  end
+  #  it { should be_able_to :manage, :all }
+  #end
 end

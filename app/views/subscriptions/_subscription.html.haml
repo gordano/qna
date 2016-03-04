@@ -1,0 +1,7 @@
+.subscription
+
+  - if can?(:create, Subscription.new(question: question, user: current_user))
+    - if Subscription.exists?(user: current_user, question: question)
+      = link_to 'Unsubscribe', question_subscription_path(question, @subscription), remote: true, method: :delete, class: 'btn-flat'
+    - else
+      = link_to 'Subscribe', question_subscriptions_path(question), remote: true, method: :post, class: 'btn-flat'

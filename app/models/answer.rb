@@ -9,6 +9,9 @@ class Answer < ActiveRecord::Base
 
   validates :body, :question_id, :user_id, presence: true
 
+  after_create :notify_subscribers
+  after_create :create_subscription_for_author
+
   accepts_nested_attributes_for :attachments,
             reject_if: proc{ |param| param[:file].blank? },
             allow_destroy: true
@@ -19,4 +22,13 @@ class Answer < ActiveRecord::Base
       raise ActiveRecord::Rollback unless self.update(best: true)
     end
   end
+
+  private
+    def notify_subscribers
+      NotifyUsersJob.perform_later(question)
+    end
+    def create_subscription_for_author
+      Subscription.find_or_initialize_by(user: self.user, question: self.question)
+    end
+
 end

@@ -12,10 +12,12 @@
         = render partial: 'votes/votes_block', locals: { voted_object: @question }
 
       =link_to 'To index', questions_path, class:['btn','btn-default']
+      = render 'subscriptions/subscription', question: @question
       -if can?(:update, @question)
         .btn-group
           =link_to 'Edit question', edit_question_path(@question), class:['btn','btn-default']
           =link_to 'Delete', @question, method: :delete, data: {confirm: "Are you sure?"}, class:['btn','btn-default']
+
     .comments-list
       %h6
         Comments

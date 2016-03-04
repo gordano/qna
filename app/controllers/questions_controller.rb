@@ -3,9 +3,11 @@ class QuestionsController < ApplicationController
 
   before_action :authenticate_user!, except: [:show, :index]
   before_action :find_question, only: [:show, :edit, :update, :destroy]
+  before_action :load_subscription, only: [:show]
   before_action :check_author, only: [:edit, :destroy]
   before_action :build_answer, only: :show
   before_action :build_attachments, only: [:edit,:show]
+
 
   authorize_resource
 
@@ -26,6 +28,10 @@ class QuestionsController < ApplicationController
 
   def create
     respond_with @question = current_user.questions.create(question_params)
+  end
+
+  def load_subscription
+    @subscription = @question.subscriptions.find_by(user: current_user) || Subscription.new
   end
 
   def update

@@ -8,4 +8,5 @@ RSpec.describe Question, :type => :model do
   it { should have_many(:attachments).dependent(:destroy) }
   it { should accept_nested_attributes_for :attachments }
   it { should have_many(:comments).dependent(:destroy) }
+  it { should have_many(:subscriptions).dependent(:destroy) }
 end

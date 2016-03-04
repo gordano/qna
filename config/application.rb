@@ -37,6 +37,7 @@ module Qna
 
 
     config.active_record.raise_in_transactional_callbacks = true
+    config.active_job.queue_adapter = :sidekiq
     #config.use_transactional_fixtures = true
   end
 end
