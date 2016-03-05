@@ -4,6 +4,8 @@ require File.expand_path("../../config/environment", __FILE__)
 require 'spec_helper'
 require 'rspec/rails'
 require 'cancan/matchers'
+require 'sidekiq/testing'
+Sidekiq::Testing.fake!
 
 # Add additional requires below this line. Rails is not loaded until this point!
 

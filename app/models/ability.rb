@@ -53,6 +53,7 @@ class Ability
     can :vote, [Question, Answer]
     cannot :vote, [Question, Answer], user: user
     can :makebest, Answer, question: { user: user }
+    can [:create, :destroy], Subscription, user: user
 
     can :me, User, id: user.id
   end
