@@ -9,8 +9,9 @@ class Answer < ActiveRecord::Base
 
   validates :body, :question_id, :user_id, presence: true
 
-  after_create :notify_subscribers
+
   after_create :create_subscription_for_author
+  after_commit :notify_subscribers
 
   accepts_nested_attributes_for :attachments,
             reject_if: proc{ |param| param[:file].blank? },
@@ -25,7 +26,7 @@ class Answer < ActiveRecord::Base
 
   private
     def notify_subscribers
-      NotifyUsersJob.perform_later(question)
+      NotifyUsersJob.perform_later(self)
     end
     def create_subscription_for_author
       Subscription.find_or_initialize_by(user: self.user, question: self.question)
